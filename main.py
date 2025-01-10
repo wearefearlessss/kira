@@ -3,7 +3,7 @@ import logging
 import os
 import sqlite3
 from datetime import datetime
-
+from environs import Env
 import handlers.handlers
 from aiogram import Bot, Dispatcher, types, F
 from aiogram.filters import Command
@@ -16,8 +16,15 @@ from aiogram.fsm.storage.memory import MemoryStorage
 # Включаем логирование
 logging.basicConfig(level=logging.INFO)
 
+
+
+env = Env()
+env.read_env()
+TOKEN = env('TOKEN')
+
+
 # Бот и диспетчер
-bot = Bot(token=os.getenv("TOKEN"))
+bot = Bot(token=TOKEN)
 dp = Dispatcher(storage=MemoryStorage())
 
 dp.include_router(handlers.handlers.router)
